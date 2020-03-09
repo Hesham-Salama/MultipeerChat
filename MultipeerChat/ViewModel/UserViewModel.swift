@@ -20,7 +20,7 @@ class UserViewModel: ObservableObject {
     }
     
     func setUser() -> Bool {
-        guard name.trimmingCharacters(in: .whitespacesAndNewlines) != "" else {
+        guard name.trimmingCharacters(in: .whitespacesAndNewlines) != "", name.count > 2 else {
             return false
         }
         user.name = name

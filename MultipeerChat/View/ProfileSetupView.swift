@@ -30,7 +30,6 @@ struct ProfileSetupView: View {
             TextField("Enter your name here", text: $userViewModel.name)
                 .background(Color.clear)
                 .multilineTextAlignment(.center)
-            
             Button(action: {
                 self.showErrorAlert = !self.userViewModel.setUser()
             }) {
@@ -39,13 +38,13 @@ struct ProfileSetupView: View {
         }.padding(.vertical, -150)
             .sheet(isPresented: $showImagePicker) {
                 ImagePicker(image: self.$image)
+        }.alert(isPresented: $showErrorAlert) {
+            Alert(title: Text("Error"),
+                  message: Text("Please enter a valid username."))
         }.onAppear {
             if let userImage = self.userViewModel.image {
                 self.image = Image(uiImage: userImage)
             }
-        }.alert(isPresented: $showErrorAlert) {
-            Alert(title: Text("Error"),
-                  message: Text("Please enter a valid username."))
         }
     }
 }
