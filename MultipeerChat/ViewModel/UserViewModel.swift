@@ -7,31 +7,42 @@
 //
 
 import UIKit
+import MultipeerConnectivity
 
 class UserViewModel: ObservableObject {
     
-    private var user: User
+    private var user: MultipeerUser
     @Published var name = ""
     @Published var image : UIImage?
     @Published var isLoggedIn = false
     
-    init(user: User) {
+    init(user: MultipeerUser) {
         self.user = user
+        _ = attemptLogin()
     }
     
-    func setUser() -> Bool {
-        guard name.trimmingCharacters(in: .whitespacesAndNewlines) != "", name.count > 2 else {
-            return false
-        }
+    func attemptLogin() -> Bool {
+        setUser()
+        isLoggedIn = isValidUser()
+        return isLoggedIn
+    }
+    
+    func setUser() {
         user.name = name
-        user.picture = image
-        isLoggedIn = true
-        return true
+        user.image = image
+        if isValidUser() {
+            user.id = MCPeerID(displayName: name)
+        }
     }
     
     func logOut() {
-        isLoggedIn = false
         user.name = ""
-        user.picture = nil
+        user.image = nil
+        user.id = nil
+        isLoggedIn = false
+    }
+    
+    private func isValidUser() -> Bool {
+        return user.name.count >= 4 && !user.name.contains(" ")
     }
 }

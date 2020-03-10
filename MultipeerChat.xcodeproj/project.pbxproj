@@ -14,7 +14,9 @@
 		546D7070241296E20005AA27 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 546D706E241296E20005AA27 /* LaunchScreen.storyboard */; };
 		546D70782412A9140005AA27 /* ProfileSetupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 546D70772412A9140005AA27 /* ProfileSetupView.swift */; };
 		546D707A2412EAF20005AA27 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 546D70792412EAF20005AA27 /* ImagePicker.swift */; };
-		882E7D352416576600E49BF6 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 882E7D342416576600E49BF6 /* User.swift */; };
+		8802D932241795F400E555D8 /* User.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 8802D930241795F400E555D8 /* User.xcdatamodeld */; };
+		8802D9342417A45D00E555D8 /* CoreDataHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8802D9332417A45D00E555D8 /* CoreDataHandler.swift */; };
+		882E7D352416576600E49BF6 /* MultipeerUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 882E7D342416576600E49BF6 /* MultipeerUser.swift */; };
 		882E7D3A24165A6700E49BF6 /* UserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 882E7D3924165A6700E49BF6 /* UserViewModel.swift */; };
 		882E7D3E2416615600E49BF6 /* StartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 882E7D3D2416615600E49BF6 /* StartView.swift */; };
 		882E7D41241661B200E49BF6 /* TabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 882E7D40241661B200E49BF6 /* TabBarView.swift */; };
@@ -32,7 +34,9 @@
 		546D7071241296E20005AA27 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		546D70772412A9140005AA27 /* ProfileSetupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSetupView.swift; sourceTree = "<group>"; };
 		546D70792412EAF20005AA27 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
-		882E7D342416576600E49BF6 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		8802D931241795F400E555D8 /* User.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = User.xcdatamodel; sourceTree = "<group>"; };
+		8802D9332417A45D00E555D8 /* CoreDataHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataHandler.swift; sourceTree = "<group>"; };
+		882E7D342416576600E49BF6 /* MultipeerUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipeerUser.swift; sourceTree = "<group>"; };
 		882E7D3924165A6700E49BF6 /* UserViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserViewModel.swift; sourceTree = "<group>"; };
 		882E7D3D2416615600E49BF6 /* StartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartView.swift; sourceTree = "<group>"; };
 		882E7D40241661B200E49BF6 /* TabBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarView.swift; sourceTree = "<group>"; };
@@ -105,7 +109,8 @@
 		882E7D372416577A00E49BF6 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				882E7D342416576600E49BF6 /* User.swift */,
+				882E7D342416576600E49BF6 /* MultipeerUser.swift */,
+				8802D9332417A45D00E555D8 /* CoreDataHandler.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -116,6 +121,7 @@
 				546D7069241296E20005AA27 /* Assets.xcassets */,
 				546D706E241296E20005AA27 /* LaunchScreen.storyboard */,
 				546D7071241296E20005AA27 /* Info.plist */,
+				8802D930241795F400E555D8 /* User.xcdatamodeld */,
 			);
 			name = "Supoorting Files";
 			sourceTree = "<group>";
@@ -199,13 +205,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8802D932241795F400E555D8 /* User.xcdatamodeld in Sources */,
+				8802D9342417A45D00E555D8 /* CoreDataHandler.swift in Sources */,
 				546D7064241296DB0005AA27 /* AppDelegate.swift in Sources */,
 				882E7D432416630C00E49BF6 /* MainView.swift in Sources */,
 				882E7D3A24165A6700E49BF6 /* UserViewModel.swift in Sources */,
 				882E7D41241661B200E49BF6 /* TabBarView.swift in Sources */,
 				546D707A2412EAF20005AA27 /* ImagePicker.swift in Sources */,
 				546D7066241296DB0005AA27 /* SceneDelegate.swift in Sources */,
-				882E7D352416576600E49BF6 /* User.swift in Sources */,
+				882E7D352416576600E49BF6 /* MultipeerUser.swift in Sources */,
 				546D70782412A9140005AA27 /* ProfileSetupView.swift in Sources */,
 				882E7D3E2416615600E49BF6 /* StartView.swift in Sources */,
 				882E7D452416632000E49BF6 /* MoreView.swift in Sources */,
@@ -402,6 +410,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		8802D930241795F400E555D8 /* User.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				8802D931241795F400E555D8 /* User.xcdatamodel */,
+			);
+			currentVersion = 8802D931241795F400E555D8 /* User.xcdatamodel */;
+			path = User.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 546D7058241296DB0005AA27 /* Project object */;
 }

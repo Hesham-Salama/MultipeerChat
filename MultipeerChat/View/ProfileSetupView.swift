@@ -31,7 +31,7 @@ struct ProfileSetupView: View {
                 .background(Color.clear)
                 .multilineTextAlignment(.center)
             Button(action: {
-                self.showErrorAlert = !self.userViewModel.setUser()
+                self.showErrorAlert = !self.userViewModel.attemptLogin()
             }) {
                 Text("Continue")
             }
