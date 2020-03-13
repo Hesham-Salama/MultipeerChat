@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		542553A8241AE4F400E00962 /* ActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 542553A7241AE4F400E00962 /* ActivityIndicator.swift */; };
+		542553AD241AE7B600E00962 /* ScanningView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 542553AC241AE7B600E00962 /* ScanningView.swift */; };
 		546D7064241296DB0005AA27 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 546D7063241296DB0005AA27 /* AppDelegate.swift */; };
 		546D7066241296DB0005AA27 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 546D7065241296DB0005AA27 /* SceneDelegate.swift */; };
 		546D706A241296E20005AA27 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 546D7069241296E20005AA27 /* Assets.xcassets */; };
@@ -25,6 +27,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		542553A7241AE4F400E00962 /* ActivityIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicator.swift; sourceTree = "<group>"; };
+		542553AC241AE7B600E00962 /* ScanningView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanningView.swift; sourceTree = "<group>"; };
 		546D7060241296DB0005AA27 /* MultipeerChat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MultipeerChat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		546D7063241296DB0005AA27 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		546D7065241296DB0005AA27 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -55,6 +59,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		542553A9241AE75B00E00962 /* Mini Views */ = {
+			isa = PBXGroup;
+			children = (
+				546D70792412EAF20005AA27 /* ImagePicker.swift */,
+				542553A7241AE4F400E00962 /* ActivityIndicator.swift */,
+				542553AC241AE7B600E00962 /* ScanningView.swift */,
+			);
+			path = "Mini Views";
+			sourceTree = "<group>";
+		};
 		546D7057241296DB0005AA27 = {
 			isa = PBXGroup;
 			children = (
@@ -79,7 +93,7 @@
 				882E7D372416577A00E49BF6 /* Model */,
 				882E7D362416577200E49BF6 /* View */,
 				882E7D3F2416618D00E49BF6 /* ViewModel */,
-				882E7D382416578600E49BF6 /* Supoorting Files */,
+				882E7D382416578600E49BF6 /* Supporting Files */,
 				546D706B241296E20005AA27 /* Preview Content */,
 			);
 			path = MultipeerChat;
@@ -101,7 +115,7 @@
 				882E7D40241661B200E49BF6 /* TabBarView.swift */,
 				882E7D422416630C00E49BF6 /* MainView.swift */,
 				882E7D442416632000E49BF6 /* MoreView.swift */,
-				546D70792412EAF20005AA27 /* ImagePicker.swift */,
+				542553A9241AE75B00E00962 /* Mini Views */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -115,7 +129,7 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
-		882E7D382416578600E49BF6 /* Supoorting Files */ = {
+		882E7D382416578600E49BF6 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
 				546D7069241296E20005AA27 /* Assets.xcassets */,
@@ -123,7 +137,7 @@
 				546D7071241296E20005AA27 /* Info.plist */,
 				8802D930241795F400E555D8 /* User.xcdatamodeld */,
 			);
-			name = "Supoorting Files";
+			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
 		882E7D3F2416618D00E49BF6 /* ViewModel */ = {
@@ -209,10 +223,12 @@
 				8802D9342417A45D00E555D8 /* CoreDataHandler.swift in Sources */,
 				546D7064241296DB0005AA27 /* AppDelegate.swift in Sources */,
 				882E7D432416630C00E49BF6 /* MainView.swift in Sources */,
+				542553A8241AE4F400E00962 /* ActivityIndicator.swift in Sources */,
 				882E7D3A24165A6700E49BF6 /* UserViewModel.swift in Sources */,
 				882E7D41241661B200E49BF6 /* TabBarView.swift in Sources */,
 				546D707A2412EAF20005AA27 /* ImagePicker.swift in Sources */,
 				546D7066241296DB0005AA27 /* SceneDelegate.swift in Sources */,
+				542553AD241AE7B600E00962 /* ScanningView.swift in Sources */,
 				882E7D352416576600E49BF6 /* MultipeerUser.swift in Sources */,
 				546D70782412A9140005AA27 /* ProfileSetupView.swift in Sources */,
 				882E7D3E2416615600E49BF6 /* StartView.swift in Sources */,

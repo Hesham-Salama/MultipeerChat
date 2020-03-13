@@ -9,8 +9,25 @@
 import SwiftUI
 
 struct MainView: View {
+    
+    @State private var loadingHidden = false
+    
     var body: some View {
-        Text("Main")
+        GeometryReader { geometry in
+            NavigationView {
+                VStack {
+                    Spacer()
+                    if !self.loadingHidden {
+                        ScanningView {
+                            withAnimation {
+                                self.loadingHidden.toggle()
+                            }
+                        }.frame(width: geometry.size.width, height: 50)
+                    }
+                }
+                .navigationBarTitle("Chats")
+            }
+        }
     }
 }
 

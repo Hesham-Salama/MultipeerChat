@@ -17,6 +17,7 @@ struct MultipeerUser: Identifiable {
     private let imageKey = "profilePicture"
     private let idKey = "mcpeerID"
     private let tableName = "User"
+    private let uuidKey = "uuid"
     
     var name : String {
         get {
@@ -40,7 +41,7 @@ struct MultipeerUser: Identifiable {
         }
     }
     
-    var id : MCPeerID? {
+    var mcPeerID : MCPeerID? {
         get {
             guard let data = coreDataHandler.getData(key: idKey) as? Data, let id = try? NSKeyedUnarchiver.unarchivedObject(ofClass: MCPeerID.self, from: data) else {
                 print("Error in getting MCPeerID value from CoreData.")
@@ -50,6 +51,17 @@ struct MultipeerUser: Identifiable {
         }
         set {
             setMCPeerID(mcPeerID: newValue)
+        }
+    }
+    
+    var id: UUID {
+        get {
+            guard let uuid = coreDataHandler.getData(key: uuidKey) as? UUID else {
+                let uuid = UUID()
+                coreDataHandler.setData(key: uuidKey, data: uuid)
+                return uuid
+            }
+            return uuid
         }
     }
     

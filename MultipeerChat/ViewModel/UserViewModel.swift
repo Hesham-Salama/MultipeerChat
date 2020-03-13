@@ -22,7 +22,6 @@ class UserViewModel: ObservableObject {
     }
     
     func attemptLogin() -> Bool {
-        setUser()
         isLoggedIn = isValidUser()
         return isLoggedIn
     }
@@ -31,14 +30,14 @@ class UserViewModel: ObservableObject {
         user.name = name
         user.image = image
         if isValidUser() {
-            user.id = MCPeerID(displayName: name)
+            user.mcPeerID = MCPeerID(displayName: name)
         }
     }
     
     func logOut() {
         user.name = ""
         user.image = nil
-        user.id = nil
+        user.mcPeerID = nil
         isLoggedIn = false
     }
     
