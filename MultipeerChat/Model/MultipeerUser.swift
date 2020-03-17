@@ -2,85 +2,82 @@
 //  MultipeerUser.swift
 //  MultipeerChat
 //
-//  Created by Hesham on 3/9/20.
+//  Created by Hesham on 3/17/20.
 //  Copyright © 2020 Hesham Salama. All rights reserved.
 //
 
-import UIKit
 import MultipeerConnectivity
+import UIKit
+import CoreData
 
-struct MultipeerUser: Identifiable {
+struct MultipeerUser {
     
-    private let coreDataHandler: CoreDataHandler
+    let mcPeerID: MCPeerID
+    let picture: UIImage?
+    private static let tableName = "Peer"
+    private static let coreDataHandler = CoreDataHandler(tableName: tableName)
+    
+    init(mcPeerID: MCPeerID, picture: UIImage?) {
+        self.mcPeerID = mcPeerID
+        self.picture = picture
+    }
+}
 
-    private let nameKey = "name"
-    private let imageKey = "profilePicture"
-    private let idKey = "mcpeerID"
-    private let tableName = "User"
-    private let uuidKey = "uuid"
+extension MultipeerUser {
     
-    var name : String {
-        get {
-            return coreDataHandler.getData(key: nameKey) as? String ?? ""
-        }
-        set {
-            coreDataHandler.setData(key: nameKey, data: newValue)
-        }
+    private static var mcPeerKey : String {
+        return "mcPeerID"
     }
     
-    var image : UIImage? {
-        get {
-            guard let imageData = coreDataHandler.getData(key: imageKey) as? Data else {
-                return nil
+    private static var pictureKey : String {
+        return "profilePicture"
+    }
+    
+    private var isPeerSaved : Bool {
+        return MultipeerUser.getAll().filter{ $0.mcPeerID.hashValue == self.mcPeerID.hashValue }.first != nil
+    }
+    
+    func saveLocally() {
+        if !isPeerSaved {
+            do {
+                guard let managedObject = MultipeerUser.coreDataHandler.getNewManagedObject() else {
+                    fatalError("Couldn't save the user data!")
+                }
+                try saveMCPeerID(mcPeerID: mcPeerID, newManagedObject: managedObject)
+                savePeerImage(image: picture, newManagedObject: managedObject)
+            } catch {
+                print(error.localizedDescription)
             }
-            return UIImage(data: imageData)
-        }
-        set {
-            let imageData = newValue?.pngData()
-            coreDataHandler.setData(key: imageKey, data: imageData)
         }
     }
     
-    var mcPeerID : MCPeerID? {
-        get {
-            guard let data = coreDataHandler.getData(key: idKey) as? Data, let id = try? NSKeyedUnarchiver.unarchivedObject(ofClass: MCPeerID.self, from: data) else {
-                print("Error in getting MCPeerID value from CoreData.")
-                return nil
+    private func saveMCPeerID(mcPeerID: MCPeerID, newManagedObject: NSManagedObject) throws {
+        let data = try NSKeyedArchiver.archivedData(withRootObject: mcPeerID, requiringSecureCoding: true)
+        MultipeerUser.coreDataHandler.setData(in: newManagedObject, key: MultipeerUser.mcPeerKey, data: data)
+    }
+    
+    private func savePeerImage(image: UIImage?, newManagedObject: NSManagedObject) {
+        let data = image?.pngData()
+        MultipeerUser.coreDataHandler.setData(in: newManagedObject, key: MultipeerUser.pictureKey, data: data)
+    }
+    
+    static func getAll() -> [MultipeerUser] {
+        var mUsers = [MultipeerUser]()
+        guard let managedObjects = coreDataHandler.getData() else {
+            return mUsers
+        }
+        managedObjects.forEach {
+            if let data = $0.value(forKey: mcPeerKey) as? Data, let mcPeerID = try? NSKeyedUnarchiver.unarchivedObject(ofClass: MCPeerID.self, from: data) {
+                let picture = $0.value(forKey: pictureKey) as? UIImage
+                mUsers.append(MultipeerUser(mcPeerID: mcPeerID, picture: picture))
             }
-            return id
         }
-        set {
-            setMCPeerID(mcPeerID: newValue)
-        }
+        return mUsers
     }
-    
-    var id: UUID {
-        get {
-            guard let uuid = coreDataHandler.getData(key: uuidKey) as? UUID else {
-                let uuid = UUID()
-                coreDataHandler.setData(key: uuidKey, data: uuid)
-                return uuid
-            }
-            return uuid
-        }
-    }
-    
-    init() {
-        coreDataHandler = CoreDataHandler(tableName: tableName)
-    }
-    
-    private func setMCPeerID(mcPeerID: MCPeerID?) {
-        guard let mcPeerID = mcPeerID else {
-            coreDataHandler.setData(key: idKey, data: nil)
-            return
-        }
-        do {
-            let data = try NSKeyedArchiver.archivedData(withRootObject: mcPeerID, requiringSecureCoding: true)
-            coreDataHandler.setData(key: idKey, data: data)
-        } catch {
-            print("Error in setting the MCPeerID value in CoreData.")
-            print(error.localizedDescription)
-            coreDataHandler.setData(key: idKey, data: nil)
-        }
+}
+
+extension MultipeerUser: Identifiable {
+    var id: Int {
+        return mcPeerID.hashValue
     }
 }

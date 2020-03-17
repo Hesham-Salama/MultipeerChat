@@ -10,10 +10,10 @@ import SwiftUI
 
 struct StartView: View {
     
-    @EnvironmentObject var userViewModel : UserViewModel
+    @EnvironmentObject var loginViewModel : LoginViewModel
     
     var body: some View {
-        if userViewModel.isLoggedIn {
+        if loginViewModel.isLoggedIn {
             return AnyView(TabBarView())
         } else {
             return AnyView(ProfileSetupView())

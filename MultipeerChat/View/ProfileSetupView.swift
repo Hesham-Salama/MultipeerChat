@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct ProfileSetupView: View {
-    @EnvironmentObject private var userViewModel : UserViewModel
+    @EnvironmentObject private var loginViewModel : LoginViewModel
     @State private var showImagePicker = false
     @State private var showErrorAlert = false
     @State private var image = Image("defaultProfile")
@@ -27,23 +27,22 @@ struct ProfileSetupView: View {
                     .frame(width: 100.0, height: 100.0)
                     .scaledToFit()
             }
-            TextField("Enter your name here", text: $userViewModel.name)
+            TextField("Enter your name here", text: $loginViewModel.name)
                 .background(Color.clear)
                 .multilineTextAlignment(.center)
             Button(action: {
-                self.userViewModel.setUser()
-                self.showErrorAlert = !self.userViewModel.attemptLogin()
+                self.loginViewModel.attemptRegisteration()
             }) {
                 Text("Continue")
             }
         }.padding(.vertical, -150)
-            .sheet(isPresented: $showImagePicker) {
+        .sheet(isPresented: $showImagePicker) {
                 ImagePicker(image: self.$image)
-        }.alert(isPresented: $showErrorAlert) {
+        }.alert(isPresented: $loginViewModel.isErrorShown) {
             Alert(title: Text("Error"),
-                  message: Text("Please enter a valid username."))
+                  message: Text(loginViewModel.errorMessage))
         }.onAppear {
-            if let userImage = self.userViewModel.image {
+            if let userImage = self.loginViewModel.image {
                 self.image = Image(uiImage: userImage)
             }
         }
