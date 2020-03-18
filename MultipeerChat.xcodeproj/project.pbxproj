@@ -25,8 +25,10 @@
 		882E7D41241661B200E49BF6 /* TabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 882E7D40241661B200E49BF6 /* TabBarView.swift */; };
 		882E7D432416630C00E49BF6 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 882E7D422416630C00E49BF6 /* MainView.swift */; };
 		882E7D452416632000E49BF6 /* MoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 882E7D442416632000E49BF6 /* MoreView.swift */; };
+		885E82FA242220B50061C628 /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = 885E82F9242220B50061C628 /* Session.swift */; };
 		886D6C3D2420D5E8003CE93A /* MultipeerUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 886D6C3C2420D5E8003CE93A /* MultipeerUser.swift */; };
 		886D6C412420DAC0003CE93A /* UserPeer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 886D6C402420DAC0003CE93A /* UserPeer.swift */; };
+		88C37732242223D80024F0E3 /* Advertising.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88C37731242223D80024F0E3 /* Advertising.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -50,8 +52,10 @@
 		882E7D40241661B200E49BF6 /* TabBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarView.swift; sourceTree = "<group>"; };
 		882E7D422416630C00E49BF6 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		882E7D442416632000E49BF6 /* MoreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreView.swift; sourceTree = "<group>"; };
+		885E82F9242220B50061C628 /* Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
 		886D6C3C2420D5E8003CE93A /* MultipeerUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipeerUser.swift; sourceTree = "<group>"; };
 		886D6C402420DAC0003CE93A /* UserPeer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPeer.swift; sourceTree = "<group>"; };
+		88C37731242223D80024F0E3 /* Advertising.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Advertising.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,6 +103,7 @@
 				882E7D362416577200E49BF6 /* View */,
 				882E7D3F2416618D00E49BF6 /* ViewModel */,
 				54BD8701241CF7BB0085147F /* ViewController Representable */,
+				885E82FB242220C30061C628 /* Services */,
 				882E7D382416578600E49BF6 /* Supporting Files */,
 				546D706B241296E20005AA27 /* Preview Content */,
 			);
@@ -163,6 +168,15 @@
 				54BD8704241D158E0085147F /* ChatsViewModel.swift */,
 			);
 			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		885E82FB242220C30061C628 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				885E82F9242220B50061C628 /* Session.swift */,
+				88C37731242223D80024F0E3 /* Advertising.swift */,
+			);
+			path = Services;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -244,12 +258,14 @@
 				542553A8241AE4F400E00962 /* ActivityIndicator.swift in Sources */,
 				882E7D3A24165A6700E49BF6 /* LoginViewModel.swift in Sources */,
 				882E7D41241661B200E49BF6 /* TabBarView.swift in Sources */,
+				885E82FA242220B50061C628 /* Session.swift in Sources */,
 				546D707A2412EAF20005AA27 /* ImagePicker.swift in Sources */,
 				886D6C412420DAC0003CE93A /* UserPeer.swift in Sources */,
 				546D7066241296DB0005AA27 /* SceneDelegate.swift in Sources */,
 				542553AD241AE7B600E00962 /* ScanningView.swift in Sources */,
 				54BD8703241CF8050085147F /* MCBrowser.swift in Sources */,
 				546D70782412A9140005AA27 /* ProfileSetupView.swift in Sources */,
+				88C37732242223D80024F0E3 /* Advertising.swift in Sources */,
 				882E7D3E2416615600E49BF6 /* StartView.swift in Sources */,
 				54BD8705241D158E0085147F /* ChatsViewModel.swift in Sources */,
 				882E7D452416632000E49BF6 /* MoreView.swift in Sources */,
