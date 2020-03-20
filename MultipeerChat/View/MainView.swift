@@ -10,25 +10,21 @@ import SwiftUI
 
 struct MainView: View {
     
-    @State private var loadingShown = false
+    @State private var advertiserShown = false
     @State private var actionSheetShown = false
     @State private var browserShown = false
     @State private var chatsViewModel = ChatsViewModel()
     
     var body: some View {
-        GeometryReader { geometry in
-            NavigationView {
-                VStack {
-                    Spacer()
-                    if self.loadingShown {
-                        ScanningView(cancelAction: {
-                            withAnimation {
-                                self.loadingShown.toggle()
-                                self.chatsViewModel.hostingSessionCancelled()
-                            }
-                        }).frame(width: geometry.size.width, height: 50)
-                    }
-                }
+        NavigationView {
+            VStack {
+                NavigationLink(destination: BrowserView(), isActive: self.$browserShown) {
+                  EmptyView()
+                }.hidden()
+                NavigationLink(destination: AdvertiserView(), isActive: self.$advertiserShown) {
+                  EmptyView()
+                }.hidden()
+            }
                 .navigationBarTitle("Chats")
                 .navigationBarItems(trailing:
                     Button(action: {
@@ -36,16 +32,17 @@ struct MainView: View {
                     }) {
                         Image(systemName: "plus")
                 })
-            }
-            }.sheet(isPresented: $browserShown) {
-                MCBrowser(session: self.chatsViewModel.session.mcSession, serviceType: self.chatsViewModel.serviceType)
-            }.actionSheet(isPresented: $actionSheetShown) {
+        }.actionSheet(isPresented: self.$actionSheetShown) {
             ActionSheet(title: Text("Choose an option"), buttons: [.default(Text("Host a session")) {
-                self.loadingShown = true
-                self.chatsViewModel.hostingSessionClicked()
+                print("Hosting clicked")
+                self.advertiserShown.toggle()
                 }, .default(Text("Join a session")) {
+                    print("Browsing clicked")
                     self.browserShown.toggle()
                 }, .cancel()])
+        }.onAppear {
+            self.advertiserShown = false
+            self.browserShown = false
         }
     }
 }
