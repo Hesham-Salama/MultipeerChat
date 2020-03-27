@@ -19,6 +19,12 @@ class BrowserViewModel: NSObject, ObservableObject {
     private let browser: MCNearbyServiceBrowser
     private let invitationTimeout: TimeInterval = 60.0
     
+    private var newSession: MCSession {
+        let session = SessionManager.shared.newSession
+        session.delegate = self
+        return session
+    }
+    
     override init() {
         guard let peerID = UserPeer.shared.peerID else {
             fatalError("No PeerID detected!")
@@ -37,10 +43,19 @@ class BrowserViewModel: NSObject, ObservableObject {
     }
     
     func peerClicked(peer: MCPeerID) {
-        let newSession = SessionManager.shared.newSession
-        newSession.delegate = self
-        browser.invitePeer(peer, to: newSession, withContext: nil, timeout: invitationTimeout)
-        setAvailablePeerStatus(peer, status: .connecting)
+        if isPeerAvailableToConnect(peer: peer) {
+            browser.invitePeer(peer, to: newSession, withContext: nil, timeout: invitationTimeout)
+            setAvailablePeerStatus(peer, status: .connecting)
+        }
+    }
+    
+    private func isPeerAvailableToConnect(peer: MCPeerID) -> Bool {
+        guard let index = (availablePeers.firstIndex {
+            $0.peerID.hashValue == peer.hashValue
+        }) else {
+            return false
+        }
+        return availablePeers[index].status == .available
     }
     
     private func removeUnavailablePeer(peerID: MCPeerID) {
@@ -78,6 +93,15 @@ class BrowserViewModel: NSObject, ObservableObject {
         couldntConnectMessage = "Couldn't connect to \(failedToConnectPeer.displayName)"
         couldntConnect = true
     }
+    
+    private func sendUserInfo(session: MCSession) {
+        guard let peerID = UserPeer.shared.peerID else {
+            return
+        }
+        let image = (MultipeerUser.getAll().filter { $0.mcPeerID.hashValue == peerID.hashValue }).first?.picture
+        let messageSender = MessageSender(session: session)
+        messageSender.sendProfilePicture(image: image)
+    }
 }
 
 extension BrowserViewModel: MCNearbyServiceBrowserDelegate {
@@ -112,6 +136,9 @@ extension BrowserViewModel: MCSessionDelegate {
             case .connected:
                 print("Connected to \(peerID.displayName)")
                 self?.moveToConnectedPeers(peerID: peerID)
+                if (MultipeerUser.getAll().filter { $0.mcPeerID.hashValue == peerID.hashValue }.first) == nil {
+                    self?.sendUserInfo(session: session)
+                }
             @unknown default:
                 break
             }
@@ -119,6 +146,7 @@ extension BrowserViewModel: MCSessionDelegate {
     }
     
     func session(_ session: MCSession, didReceive data: Data, fromPeer peerID: MCPeerID) {
+        MessageHandler.handleReceivedSystemImage(data: data, from: peerID)
     }
     
     func session(_ session: MCSession, didReceive stream: InputStream, withName streamName: String, fromPeer peerID: MCPeerID) {

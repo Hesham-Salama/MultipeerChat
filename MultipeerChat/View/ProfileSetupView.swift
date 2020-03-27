@@ -19,13 +19,7 @@ struct ProfileSetupView: View {
             Button(action: {
                 self.showImagePicker.toggle()
             }) {
-                image
-                    .resizable()
-                    .renderingMode(.original)
-                    .clipShape(Circle())
-                    .overlay(Circle().stroke(Color.gray, lineWidth: 1))
-                    .frame(width: 100.0, height: 100.0)
-                    .scaledToFit()
+                image.peerImageModifier().frame(width: 100.0, height: 100.0)
             }
             TextField("Enter your name here", text: $loginViewModel.name)
                 .background(Color.clear)

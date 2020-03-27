@@ -11,4 +11,9 @@ import MultipeerConnectivity
 
 class ChatsViewModel: ObservableObject {
     @Published var peers = [MultipeerUser]()
+    
+    func updatePeers() {
+        peers = MultipeerUser.getAll()
+        print(peers)
+    }
 }
