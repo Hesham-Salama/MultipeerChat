@@ -39,11 +39,11 @@ class MessageHandler {
         print("The new connected peer \"\(peerID.displayName)\" has been saved locally")
     }
     
-    static func handleReceivedUserMessage(data: Data, from peerID: MCPeerID) {
+    static func handleReceivedUserMessage(data: Data, from peerID: MCPeerID) -> UserMessage? {
         guard let userPeerID = UserPeer.shared.peerID else {
-            return
+            return nil
         }
-        saveMessageLocally(data: data, from: peerID, to: userPeerID)
+        return saveMessageLocally(data: data, from: peerID, to: userPeerID)
     }
     
     static func handleSentUserMessage(data: Data, to peerID: MCPeerID) {
@@ -53,21 +53,23 @@ class MessageHandler {
         saveMessageLocally(data: data, from: userPeerID, to: peerID)
     }
     
-    private static func saveMessageLocally(data: Data, from peerID: MCPeerID, to peerID2: MCPeerID) {
+    @discardableResult
+    private static func saveMessageLocally(data: Data, from peerID: MCPeerID, to peerID2: MCPeerID) -> UserMessage? {
         guard let decodedMessage = try? JSONDecoder().decode(Message.self, from: data) else {
             print("Couldn't decode the message")
-            return
+            return nil
         }
         guard decodedMessage.commuType == .user else {
             print("This is not a user type message")
-            return
+            return nil
         }
         guard let messageData = decodedMessage.data else {
             print("nil message data")
-            return
+            return nil
         }
         let currentTime = Date().timeIntervalSince1970
         let userMessage = UserMessage(data: messageData, unixTime: currentTime, senderPeerID: peerID, receiverPeerID: peerID2, id: UUID())
         userMessage.saveLocally()
+        return userMessage
     }
 }

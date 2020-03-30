@@ -10,13 +10,15 @@
     <entity name="UserMessageEntity" representedClassName="UserMessageEntity" syncable="YES" codeGenerationType="class">
         <attribute name="data" optional="YES" attributeType="Binary"/>
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="recipientHashValue" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="recipientPeerID" optional="YES" attributeType="Binary"/>
+        <attribute name="senderHashValue" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="senderPeerID" optional="YES" attributeType="Binary"/>
         <attribute name="time" optional="YES" attributeType="Double" defaultValueString="0" usesScalarValueType="YES"/>
     </entity>
     <elements>
         <element name="Peer" positionX="-63" positionY="-18" width="128" height="73"/>
         <element name="User" positionX="-63" positionY="9" width="128" height="58"/>
-        <element name="UserMessageEntity" positionX="-54" positionY="18" width="128" height="118"/>
+        <element name="UserMessageEntity" positionX="-54" positionY="18" width="128" height="148"/>
     </elements>
 </model>

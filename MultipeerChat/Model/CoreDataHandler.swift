@@ -14,14 +14,17 @@ class CoreDataHandler {
     
     private let tableName : String
     private let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    var maxPageLimit = 25
     
     init(tableName: String) {
         self.tableName = tableName
     }
     
-    func getData(predicate: NSPredicate? = nil) -> [NSManagedObject]? {
+    func getData(predicate: NSPredicate? = nil, sortDescriptors: [CoreDataSortDescriptor]? = nil, paging: Int? = nil) -> [NSManagedObject]? {
         let request = NSFetchRequest<NSFetchRequestResult>(entityName: tableName)
         request.predicate = predicate
+        applySortDescriptors(sortDescriptors, request)
+        applyPaging(paging, request)
         request.returnsObjectsAsFaults = false
         do {
             let result = try context.fetch(request)
@@ -74,5 +77,22 @@ class CoreDataHandler {
             return nil
         }
         return NSManagedObject(entity: entity, insertInto: context)
+    }
+    
+    fileprivate func applySortDescriptors(_ sortDescriptors: [CoreDataSortDescriptor]?, _ request: NSFetchRequest<NSFetchRequestResult>) {
+        if let descriptors = sortDescriptors {
+            var descArr = [NSSortDescriptor]()
+            for descriptor in descriptors {
+                descArr.append(NSSortDescriptor(key: descriptor.key, ascending: descriptor.isAscending))
+            }
+            request.sortDescriptors = descArr
+        }
+    }
+    
+    fileprivate func applyPaging(_ paging: Int?, _ request: NSFetchRequest<NSFetchRequestResult>) {
+        if let paging = paging {
+            request.fetchLimit = maxPageLimit
+            request.fetchOffset = paging
+        }
     }
 }

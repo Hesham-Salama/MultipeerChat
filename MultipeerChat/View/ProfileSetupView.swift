@@ -12,33 +12,30 @@ struct ProfileSetupView: View {
     @EnvironmentObject private var loginViewModel : LoginViewModel
     @State private var showImagePicker = false
     @State private var showErrorAlert = false
-    @State private var image = Image("defaultProfile")
+    @State private var uiimage = UIImage(named: "defaultProfile")
     
     var body: some View {
         VStack(alignment: .center, spacing: 16) {
             Button(action: {
                 self.showImagePicker.toggle()
             }) {
-                image.peerImageModifier().frame(width: 100.0, height: 100.0)
+                DefaultImageConstructor.get(uiimage: uiimage)
+                    .peerImageModifier().frame(width: 100.0, height: 100.0)
             }
             TextField("Enter your name here", text: $loginViewModel.name)
                 .background(Color.clear)
                 .multilineTextAlignment(.center)
             Button(action: {
-                self.loginViewModel.attemptRegisteration()
+                self.loginViewModel.attemptRegisteration(image: self.uiimage)
             }) {
                 Text("Continue")
             }
         }.padding(.vertical, -150)
         .sheet(isPresented: $showImagePicker) {
-                ImagePicker(image: self.$image)
+            ImagePicker(image: self.$uiimage, takePhoto: false)
         }.alert(isPresented: $loginViewModel.isErrorShown) {
             Alert(title: Text("Error"),
                   message: Text(loginViewModel.errorMessage))
-        }.onAppear {
-            if let userImage = self.loginViewModel.image {
-                self.image = Image(uiImage: userImage)
-            }
         }
     }
 }

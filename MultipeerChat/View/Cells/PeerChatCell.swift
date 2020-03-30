@@ -17,17 +17,12 @@ struct PeerChatCell: View {
     init(multipeerUser: MultipeerUser, action: actionClosure = nil) {
         self.multipeerUser = multipeerUser
         self.action = action
-        if let image = multipeerUser.picture {
-            self.image = Image(uiImage: image)
-        } else {
-            self.image = Image("defaultProfile")
-        }
+        self.image = DefaultImageConstructor.get(uiimage: multipeerUser.picture)
     }
     
     var body: some View {
             HStack {
                 self.image.peerImageModifier().frame(width: 50, height: 50).padding()
-                
                 Text(self.multipeerUser.mcPeerID.displayName).padding()
             }
     }

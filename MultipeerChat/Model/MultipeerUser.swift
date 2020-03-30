@@ -34,7 +34,7 @@ extension MultipeerUser {
     }
     
     private var isPeerSaved : Bool {
-        return MultipeerUser.getAll().filter{ $0.mcPeerID.hashValue == self.mcPeerID.hashValue }.first != nil
+        return MultipeerUser.getAll().filter{ $0.mcPeerID == self.mcPeerID }.first != nil
     }
     
     func saveLocally() {

@@ -51,7 +51,7 @@ class BrowserViewModel: NSObject, ObservableObject {
     
     private func isPeerAvailableToConnect(peer: MCPeerID) -> Bool {
         guard let index = (availablePeers.firstIndex {
-            $0.peerID.hashValue == peer.hashValue
+            $0.peerID == peer
         }) else {
             return false
         }
@@ -60,16 +60,16 @@ class BrowserViewModel: NSObject, ObservableObject {
     
     private func removeUnavailablePeer(peerID: MCPeerID) {
         availablePeers.removeAll {
-            $0.peerID.hashValue == peerID.hashValue
+            $0.peerID == peerID
         }
         connectedPeers.removeAll {
-            $0.peerID.hashValue == peerID.hashValue
+            $0.peerID == peerID
         }
     }
     
     private func moveToConnectedPeers(peerID: MCPeerID) {
         guard let index = (availablePeers.firstIndex {
-            $0.peerID.hashValue == peerID.hashValue
+            $0.peerID == peerID
         }) else {
             return
         }
@@ -80,7 +80,7 @@ class BrowserViewModel: NSObject, ObservableObject {
     
     private func setAvailablePeerStatus(_ peerID: MCPeerID, status: PeerStatus) {
         guard let index = (availablePeers.firstIndex {
-            $0.peerID.hashValue == peerID.hashValue
+            $0.peerID == peerID
         }) else {
             return
         }
@@ -98,7 +98,7 @@ class BrowserViewModel: NSObject, ObservableObject {
         guard let peerID = UserPeer.shared.peerID else {
             return
         }
-        let image = (MultipeerUser.getAll().filter { $0.mcPeerID.hashValue == peerID.hashValue }).first?.picture
+        let image = (MultipeerUser.getAll().filter { $0.mcPeerID == peerID }).first?.picture
         let messageSender = MessageSender(session: session)
         messageSender.sendProfilePicture(image: image)
     }
@@ -136,7 +136,7 @@ extension BrowserViewModel: MCSessionDelegate {
             case .connected:
                 print("Connected to \(peerID.displayName)")
                 self?.moveToConnectedPeers(peerID: peerID)
-                if (MultipeerUser.getAll().filter { $0.mcPeerID.hashValue == peerID.hashValue }.first) == nil {
+                if (MultipeerUser.getAll().filter { $0.mcPeerID == peerID }.first) == nil {
                     self?.sendUserInfo(session: session)
                 }
             @unknown default:
