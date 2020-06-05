@@ -25,7 +25,7 @@ struct ChatroomView: View {
                 ForEach(chatroomVM.messages) { msg in
                     self.getMessageView(message: msg)
                 }
-            }.frame(height: .greatestFiniteMagnitude)
+            }
             HStack {
                 TextField("Message", text: $chatroomVM.messageText)
                     .textFieldStyle(RoundedBorderTextFieldStyle())

@@ -1,5 +1,5 @@
 //
-//  Message.swift
+//  MultipeerFrameworkMessage.swift
 //  MultipeerChat
 //
 //  Created by Hesham Salama on 3/24/20.
@@ -7,7 +7,7 @@
 //
 import Foundation
 
-struct Message: Codable {
+struct MultipeerFrameworkMessage: Codable {
     let data: Data?
     let contentType: MessageContentType
     let commuType: CommunicationType

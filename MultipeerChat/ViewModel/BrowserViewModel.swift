@@ -100,6 +100,7 @@ class BrowserViewModel: NSObject, ObservableObject {
         }
         let image = (MultipeerUser.getAll().filter { $0.mcPeerID == peerID }).first?.picture
         let messageSender = MessageSender(session: session)
+        print("Sending user info of \(peerID.displayName)")
         messageSender.sendProfilePicture(image: image)
     }
 }
@@ -146,7 +147,7 @@ extension BrowserViewModel: MCSessionDelegate {
     }
     
     func session(_ session: MCSession, didReceive data: Data, fromPeer peerID: MCPeerID) {
-        MessageHandler.handleReceivedSystemImage(data: data, from: peerID)
+        ReceivedMessageHandler.handle(data: data, from: peerID)
     }
     
     func session(_ session: MCSession, didReceive stream: InputStream, withName streamName: String, fromPeer peerID: MCPeerID) {

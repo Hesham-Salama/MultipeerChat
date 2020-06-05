@@ -6,6 +6,6 @@
 //  Copyright © 2020 Hesham Salama. All rights reserved.
 //
 
-protocol MessageAdded {
+protocol MessageAdded: class {
     func added(message: UserMessage)
 }

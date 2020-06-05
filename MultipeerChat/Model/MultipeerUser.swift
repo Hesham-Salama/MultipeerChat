@@ -16,6 +16,7 @@ struct MultipeerUser {
     let picture: UIImage?
     private static let tableName = "Peer"
     private static let coreDataHandler = CoreDataHandler(tableName: tableName)
+    weak static var delegate: PeerAdded?
     
     init(mcPeerID: MCPeerID, picture: UIImage?) {
         self.mcPeerID = mcPeerID
@@ -48,12 +49,32 @@ extension MultipeerUser {
             } catch {
                 print(error.localizedDescription)
             }
+        } else {
+            changeProfileImage(image: picture)
         }
+    }
+    
+    func changeProfileImage(image: UIImage?) {
+        guard let managedObjects = MultipeerUser.coreDataHandler.getData() else {
+            print("No peer data")
+            return
+        }
+        guard let managedObject = (managedObjects.filter({
+            if let data = $0.value(forKey: MultipeerUser.mcPeerKey) as? Data, let mcPeerID = try? NSKeyedUnarchiver.unarchivedObject(ofClass: MCPeerID.self, from: data) {
+                return mcPeerID == self.mcPeerID
+            }
+            return false
+        }).first) else {
+            print("No matched peer")
+            return
+        }
+        savePeerImage(image: image, newManagedObject: managedObject)
     }
     
     private func saveMCPeerID(mcPeerID: MCPeerID, newManagedObject: NSManagedObject) throws {
         let data = try NSKeyedArchiver.archivedData(withRootObject: mcPeerID, requiringSecureCoding: true)
         MultipeerUser.coreDataHandler.setData(in: newManagedObject, key: MultipeerUser.mcPeerKey, data: data)
+        MultipeerUser.delegate?.added(peer: self)
     }
     
     private func savePeerImage(image: UIImage?, newManagedObject: NSManagedObject) {
@@ -68,7 +89,10 @@ extension MultipeerUser {
         }
         managedObjects.forEach {
             if let data = $0.value(forKey: mcPeerKey) as? Data, let mcPeerID = try? NSKeyedUnarchiver.unarchivedObject(ofClass: MCPeerID.self, from: data) {
-                let picture = $0.value(forKey: pictureKey) as? UIImage
+                var picture : UIImage?
+                if let data = $0.value(forKey: pictureKey) as? Data {
+                    picture = UIImage(data: data)
+                }
                 mUsers.append(MultipeerUser(mcPeerID: mcPeerID, picture: picture))
             }
         }

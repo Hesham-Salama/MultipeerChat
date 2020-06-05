@@ -25,19 +25,21 @@ struct MainView: View {
                     }
                 }
                 NavigationLink(destination: BrowserView(), isActive: self.$browserShown) {
-                  EmptyView()
+                    EmptyView()
                 }.hidden()
                 NavigationLink(destination: AdvertiserView(), isActive: self.$advertiserShown) {
-                  EmptyView()
+                    EmptyView()
                 }.hidden()
             }
-                .navigationBarTitle("Chats")
-                .navigationBarItems(trailing:
-                    Button(action: {
-                        self.actionSheetShown.toggle()
-                    }) {
-                        Image(systemName: "plus")
-                })
+            .navigationBarTitle("Chats")
+            .navigationBarItems(trailing:
+                Button(action: {
+                    self.actionSheetShown.toggle()
+                }) {
+                    Image(systemName: "plus")
+            }).onAppear {
+                self.reportOnAppear()
+            }
         }.actionSheet(isPresented: self.$actionSheetShown) {
             ActionSheet(title: Text("Choose an option"), buttons: [.default(Text("Host a session")) {
                 print("Hosting clicked")
@@ -46,11 +48,14 @@ struct MainView: View {
                     print("Browsing clicked")
                     self.browserShown.toggle()
                 }, .cancel()])
-        }.onAppear {
-            self.advertiserShown = false
-            self.browserShown = false
-            self.chatsViewModel.updatePeers()
         }
+    }
+    
+    func reportOnAppear() {
+        print("Reloading peers")
+        self.advertiserShown = false
+        self.browserShown = false
+        self.chatsViewModel.updatePeers()
     }
 }
 
