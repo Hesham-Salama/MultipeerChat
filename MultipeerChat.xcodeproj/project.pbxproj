@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		541F028724C1EB760029F156 /* DataRemoval.swift in Sources */ = {isa = PBXBuildFile; fileRef = 541F028624C1EB760029F156 /* DataRemoval.swift */; };
+		541F028724C1EB760029F156 /* UserDataRemoval.swift in Sources */ = {isa = PBXBuildFile; fileRef = 541F028624C1EB760029F156 /* UserDataRemoval.swift */; };
 		542553A8241AE4F400E00962 /* ActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 542553A7241AE4F400E00962 /* ActivityIndicator.swift */; };
 		542C58E624250BB2006AAE74 /* BrowserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 542C58E524250BB2006AAE74 /* BrowserView.swift */; };
 		542C58E8242511E2006AAE74 /* MultipeerConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 542C58E7242511E2006AAE74 /* MultipeerConstants.swift */; };
@@ -57,7 +57,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		541F028624C1EB760029F156 /* DataRemoval.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataRemoval.swift; sourceTree = "<group>"; };
+		541F028624C1EB760029F156 /* UserDataRemoval.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDataRemoval.swift; sourceTree = "<group>"; };
 		542553A7241AE4F400E00962 /* ActivityIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicator.swift; sourceTree = "<group>"; };
 		542C58E524250BB2006AAE74 /* BrowserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowserView.swift; sourceTree = "<group>"; };
 		542C58E7242511E2006AAE74 /* MultipeerConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipeerConstants.swift; sourceTree = "<group>"; };
@@ -195,8 +195,7 @@
 			children = (
 				54A05857242A887700336878 /* MessageSender.swift */,
 				54F39690242AB59E00D000EE /* ReceivedMessageHandler.swift */,
-				54F39690242AB59E00D000EE /* MessageHandler.swift */,
-				541F028624C1EB760029F156 /* DataRemoval.swift */,
+				541F028624C1EB760029F156 /* UserDataRemoval.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -233,7 +232,6 @@
 			isa = PBXGroup;
 			children = (
 				886D6C402420DAC0003CE93A /* UserPeer.swift */,
-				54F6FBF1242CF4D10084A3DD /* UserMessage.swift */,
 				8802D9332417A45D00E555D8 /* CoreDataHandler.swift */,
 				54FB141A242F7FCD00DF93AF /* CoreDataSortDescriptor.swift */,
 				542C58E7242511E2006AAE74 /* MultipeerConstants.swift */,
@@ -244,7 +242,6 @@
 				54F6FBF1242CF4D10084A3DD /* UserMessage.swift */,
 				54A91C1C248AC54600C0B7A8 /* MultipeerFrameworkMessage.swift */,
 				54A91C1E248ACD9400C0B7A8 /* UserMessageSaver.swift */,
-				54791947242D4F0F0083574B /* Message.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -344,7 +341,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				541F028724C1EB760029F156 /* DataRemoval.swift in Sources */,
+				541F028724C1EB760029F156 /* UserDataRemoval.swift in Sources */,
 				545B0EB724BB9D6300A5DB60 /* MoreViewModel.swift in Sources */,
 				54FB1427242FA69200DF93AF /* ContentImageMessageView.swift in Sources */,
 				54FB1421242FA16000DF93AF /* PeerTextMessageView.swift in Sources */,

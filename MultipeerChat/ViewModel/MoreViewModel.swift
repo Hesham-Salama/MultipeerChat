@@ -11,7 +11,7 @@ class MoreViewModel {
     let options = ["Logout", "About"]
     
     func removeDataRequested(loginVM: LoginViewModel) {
-        DataRemoval.remove()
+        UserDataRemoval.remove()
         loginVM.isLoggedIn = false
     }
 }

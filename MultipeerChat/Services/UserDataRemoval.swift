@@ -1,5 +1,5 @@
 //
-//  DataRemoval.swift
+//  UserDataRemoval.swift
 //  MultipeerChat
 //
 //  Created by Hesham Salama on 7/17/20.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-class DataRemoval {
+class UserDataRemoval {
     
     static func remove() {
         MultipeerUser.removeAll()
