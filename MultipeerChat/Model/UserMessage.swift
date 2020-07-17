@@ -80,4 +80,11 @@ class UserMessage: Identifiable {
         }
         return messages
     }
+    
+    static func removeAll() {
+        guard let managedObjects = coreDataHandler.getData() else {
+            return
+        }
+        coreDataHandler.remove(managedObjects: managedObjects)
+    }
 }

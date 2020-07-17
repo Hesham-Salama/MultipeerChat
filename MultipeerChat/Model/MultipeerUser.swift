@@ -74,6 +74,13 @@ extension MultipeerUser {
         }
         return mUsers
     }
+    
+    static func removeAll() {
+        guard let managedObjects = coreDataHandler.getData() else {
+            return
+        }
+        coreDataHandler.remove(managedObjects: managedObjects)
+    }
 }
 
 extension MultipeerUser: Identifiable {

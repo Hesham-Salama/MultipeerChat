@@ -8,7 +8,6 @@
 
 import UIKit
 import CoreData
-import MultipeerConnectivity
 
 class CoreDataHandler {
     
@@ -93,6 +92,12 @@ class CoreDataHandler {
         if let paging = paging {
             request.fetchLimit = maxPageLimit
             request.fetchOffset = paging
+        }
+    }
+    
+    func remove(managedObjects: [NSManagedObject]) {
+        managedObjects.forEach {
+            context.delete($0)
         }
     }
 }
