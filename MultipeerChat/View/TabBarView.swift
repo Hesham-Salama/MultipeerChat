@@ -9,14 +9,16 @@
 import SwiftUI
 
 struct TabBarView: View {
+    private let mainView = MainView()
+    private let moreView = MoreView()
     var body: some View {
         TabView {
-            MainView()
+            mainView
                 .tabItem {
                     Image(systemName: "bubble.left.and.bubble.right.fill")
                     Text("Chat")
             }
-            MoreView()
+            moreView
                 .tabItem {
                     Image(systemName: "ellipsis.circle.fill")
                     Text("More")

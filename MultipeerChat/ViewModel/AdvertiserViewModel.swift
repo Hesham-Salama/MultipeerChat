@@ -52,6 +52,7 @@ class AdvertiserViewModel: NSObject, ObservableObject {
         }
         let image = (MultipeerUser.getAll().filter { $0.mcPeerID == peerID }).first?.picture
         let messageSender = MessageSender(session: session)
+        print("Sending user info of \(peerID.displayName)")
         messageSender.sendProfilePicture(image: image)
     }
     
@@ -92,11 +93,8 @@ extension AdvertiserViewModel: MCSessionDelegate {
     }
     
     func session(_ session: MCSession, didReceive data: Data, fromPeer peerID: MCPeerID) {
-        if (MultipeerUser.getAll().filter { $0.mcPeerID == peerID }).first == nil {
-            if MessageHandler.handleReceivedSystemImage(data: data, from: peerID) {
-                sendUserInfo(session: session)
-            }
-        }
+        ReceivedMessageHandler.handle(data: data, from: peerID)
+        sendUserInfo(session: session)
     }
     
     func session(_ session: MCSession, didReceive stream: InputStream, withName streamName: String, fromPeer peerID: MCPeerID) {

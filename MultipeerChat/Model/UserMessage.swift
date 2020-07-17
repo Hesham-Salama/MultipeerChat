@@ -20,6 +20,7 @@ class UserMessage: Identifiable {
     private static let senderPeerHashKey = "senderHashValue"
     private static let recipientPeerHashKey = "recipientHashValue"
     private static let coreDataHandler = CoreDataHandler(tableName: UserMessage.tableName)
+    weak static var delegate: MessageAdded?
     let data: Data
     let unixTime: TimeInterval
     let senderPeerID: MCPeerID
@@ -46,6 +47,7 @@ class UserMessage: Identifiable {
             UserMessage.coreDataHandler.setData(in: managedObject, key: UserMessage.idKey, data: id)
             try savePeerHash(peerID: senderPeerID, managedObject: managedObject, key: UserMessage.senderPeerHashKey)
             try savePeerHash(peerID: receiverPeerID, managedObject: managedObject, key: UserMessage.recipientPeerHashKey)
+            UserMessage.delegate?.added(message: self)
         } catch {
             print(error.localizedDescription)
         }

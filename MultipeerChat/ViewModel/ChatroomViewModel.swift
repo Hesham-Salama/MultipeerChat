@@ -25,6 +25,9 @@ class ChatroomViewModel: NSObject, ObservableObject {
     init(peer: MultipeerUser) {
         self.peer = peer
         session = SessionManager.shared.getMutualSession(with: peer.mcPeerID)
+        super.init()
+        session?.delegate = self
+        UserMessage.delegate = self
     }
     
     func getMoreMutualMessages(after time: TimeInterval? = nil) {
@@ -45,7 +48,7 @@ class ChatroomViewModel: NSObject, ObservableObject {
         messageText = ""
     }
     
-    func sendMessage(image: UIImage) {
+    func sendImageMessage(image: UIImage) {
         guard let session = session, session.connectedPeers.count > 1 else {
             errorMessage = "Couldn't send the message. The peer is disconnected."
             errorAlertShown = true
@@ -66,10 +69,11 @@ extension ChatroomViewModel: MCSessionDelegate {
     }
     
     func session(_ session: MCSession, didReceive data: Data, fromPeer peerID: MCPeerID) {
-        let message = MessageHandler.handleReceivedUserMessage(data: data, from: peerID)
-        if peerID == peer.mcPeerID, let receivedMessage = message {
-            messages.append(receivedMessage)
-        }
+        //        let message = ReceivedMessageHandler.handleReceivedUserMessage(data: data, from: peerID)
+        //        if peerID == peer.mcPeerID, let receivedMessage = message {
+        //            messages.append(receivedMessage)
+        //        }
+        ReceivedMessageHandler.handle(data: data, from: peerID)
     }
     
     func session(_ session: MCSession, didReceive stream: InputStream, withName streamName: String, fromPeer peerID: MCPeerID) {
@@ -82,5 +86,13 @@ extension ChatroomViewModel: MCSessionDelegate {
     
     func session(_ session: MCSession, didFinishReceivingResourceWithName resourceName: String, fromPeer peerID: MCPeerID, at localURL: URL?, withError error: Error?) {
         
+    }
+}
+
+extension ChatroomViewModel : MessageAdded {
+    func added(message: UserMessage) {
+        DispatchQueue.main.async { [weak self] in
+            self?.messages.append(message)
+        }
     }
 }
