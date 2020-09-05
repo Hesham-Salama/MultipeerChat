@@ -10,16 +10,29 @@ import MultipeerConnectivity
 
 class UserMessageSaver {
     
-    static func save(decodedMessage: MultipeerFrameworkMessage, from peerID: MCPeerID, to peerID2: MCPeerID) {
+    static func messageSent(from companionPeer: CompanionMP, decodedMessage: MultipeerFrameworkMessage) {
+        guard let userID = UserMP.shared.id else {
+            return
+        }
+        save(from: companionPeer.id, to: userID, decodedMessage: decodedMessage)
+    }
+    
+    static func messageSent(to companionPeer: CompanionMP, decodedMessage: MultipeerFrameworkMessage) {
+        guard let userID = UserMP.shared.id else {
+            return
+        }
+        save(from: userID, to: companionPeer.id, decodedMessage: decodedMessage)
+    }
+    
+    private static func save(from peer1ID: UUID, to peer2ID: UUID, decodedMessage: MultipeerFrameworkMessage) {
         guard let messageData = decodedMessage.data else {
             print("nil message data")
             return
         }
         let currentTime = Date().timeIntervalSince1970
-        let userMessage = UserMessage(data: messageData, unixTime: currentTime, senderPeerID: peerID, receiverPeerID: peerID2, id: UUID())
+        let userMessage = MPMessage(data: messageData, unixTime: currentTime, senderPeerID: peer1ID, receiverPeerID: peer2ID, id: UUID())
         DispatchQueue.main.async {
             userMessage.saveLocally()
         }
-//        print("The message has been saved locally")
     }
 }

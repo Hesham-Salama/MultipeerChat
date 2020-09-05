@@ -11,38 +11,17 @@ import UIKit
 
 class ReceivedMessageHandler {
     
-    static func handle(data: Data, from peerID: MCPeerID) {
-        guard let decodedMessage = try? JSONDecoder().decode(MultipeerFrameworkMessage.self, from: data) else {
-            print("Couldn't decode the message")
+    static func handleReceivedUserMessage(messageData: Data, from companion: CompanionMP) {
+        guard let decodedMessage = try? JSONDecoder().decode(MultipeerFrameworkMessage.self, from: messageData) else {
             return
         }
-        if decodedMessage.commuType == .system, decodedMessage.contentType == .image {
-            handleReceivedSystemImage(decodedMessage: decodedMessage, from: peerID)
-        }
-        else if decodedMessage.commuType == .user {
-            handleReceivedUserMessage(decodedMessage: decodedMessage, from: peerID)
-        }
+        UserMessageSaver.messageSent(from: companion, decodedMessage: decodedMessage)
     }
     
-    private static func handleReceivedSystemImage(decodedMessage: MultipeerFrameworkMessage, from peerID: MCPeerID) {
-        saveUserInfo(decodedMessage, peerID)
-    }
-    
-    private static func saveUserInfo(_ decodedMessage: MultipeerFrameworkMessage, _ peerID: MCPeerID) {
-        var image: UIImage?
-        if let data = decodedMessage.data {
-            image = UIImage(data: data)
+    static func handleCompanionInfo(data: Data) -> CompanionMP? {
+        guard let decodedCompanionMP = try? JSONDecoder().decode(CompanionMP.self, from: data) else {
+            return nil
         }
-        let multipeerFriendUser = MultipeerUser(mcPeerID: peerID, picture: image)
-        multipeerFriendUser.saveLocally()
-        print("The new connected peer \"\(peerID.displayName)\" has been saved locally")
-    }
-    
-    private static func handleReceivedUserMessage(decodedMessage: MultipeerFrameworkMessage, from peerID: MCPeerID) {
-        guard let userPeerID = UserPeer.shared.peerID else {
-            print("No user peer ID")
-            return
-        }
-        UserMessageSaver.save(decodedMessage: decodedMessage, from: peerID, to: userPeerID)
+        return decodedCompanionMP
     }
 }

@@ -10,20 +10,20 @@ import SwiftUI
 import MultipeerConnectivity
 
 class ChatsViewModel: ObservableObject {
-    @Published var peers = [MultipeerUser]()
+    @Published var peers = [CompanionMP]()
     
     init() {
-        MultipeerUser.delegate = self
+        CompanionMP.delegate = self
     }
     
     func updatePeers() {
-        peers = MultipeerUser.getAll().filter { $0.mcPeerID != UserPeer.shared.peerID }
+        peers = CompanionMP.getAll().filter { $0.mcPeerID != UserMP.shared.peerID }
         print(peers)
     }
 }
 
 extension ChatsViewModel: PeerAdded {
-    func added(peer: MultipeerUser) {
+    func added(peer: CompanionMP) {
         DispatchQueue.main.async { [weak self] in
             self?.peers.append(peer)
         }

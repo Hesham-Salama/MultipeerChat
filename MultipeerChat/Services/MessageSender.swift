@@ -10,55 +10,77 @@ import MultipeerConnectivity
 
 class MessageSender {
     
-    let session: MCSession
+    private let companionPeer: MCPeerID
+    weak var sessionDelegate: MCSessionDelegate?
     
-    init(session: MCSession) {
-        self.session = session
+    init(companionPeer: MCPeerID, sessionDelegate: MCSessionDelegate? = nil) {
+        self.companionPeer = companionPeer
+        self.sessionDelegate = sessionDelegate
     }
     
-    func sendProfilePicture(image: UIImage?) {
-        let message = MultipeerFrameworkMessage(data: image?.pngData(), contentType: .image, commuType: .system)
-        sendMessage(message: message)
-    }
+    private lazy var userAsCompanion: CompanionMP? = {
+        guard let userPeer = UserMP.shared.peerID, let userID = UserMP.shared.id else { return nil }
+        let userAsCompanion = CompanionMP(mcPeerID: userPeer, picture: UserMP.shared.profilePicture, id: userID)
+        return userAsCompanion
+    }()
     
-    func sendMessage(text: String) {
-        let message = MultipeerFrameworkMessage(data: Data(text.utf8), contentType: .text, commuType: .user)
-        let isMessageSent = sendMessage(message: message)
-        if isMessageSent, let sentPeer = session.connectedPeers.first {
-            saveMessage(message: message, sentPeer: sentPeer)
-        }
-    }
-    
-    func sendMessage(image: UIImage) {
-        let message = MultipeerFrameworkMessage(data: image.pngData(), contentType: .image, commuType: .user)
-        let isMessageSent = sendMessage(message: message)
-        if isMessageSent, let sentPeer = session.connectedPeers.first {
-            saveMessage(message: message, sentPeer: sentPeer)
-        }
-    }
-    
-    private func saveMessage(message: MultipeerFrameworkMessage, sentPeer: MCPeerID) {
-        guard let myPeerID = UserPeer.shared.peerID else {
-            return
-        }
-        UserMessageSaver.save(decodedMessage: message, from: myPeerID, to: sentPeer)
+    private var session: MCSession? {
+        let session = SessionManager.shared.getMutualSession(with: companionPeer)
+        session?.delegate = sessionDelegate
+        return session
     }
     
     @discardableResult
-    private func sendMessage(message: MultipeerFrameworkMessage) -> Bool {
-        do {
-            guard let encodedMessage = encodeMessage(message: message) else {
-                print("Message isn't convertible to binary data.")
-                return false
-            }
-            try session.send(encodedMessage, toPeers: session.connectedPeers, with: .reliable)
-            print("Message sent")
-            return true
-        } catch {
-            print("Error in sending the message")
-            print(error.localizedDescription)
+    func sendSelfInfo() -> Bool {
+        guard let encodedVal = try? JSONEncoder().encode(userAsCompanion) else {
+            print("Error in encoding companion object")
             return false
         }
+        guard let session = session else {
+            print("nil session")
+            return false
+        }
+        do {
+            try session.send(encodedVal, toPeers: [companionPeer], with: .reliable)
+            print("Self info has been sent")
+            return true
+        } catch {
+            print("Error in sending message to the peer")
+            print(error)
+            return false
+        }
+    }
+    
+//    @discardableResult
+//    func sendMessage(text: String) -> Bool {
+//        let message = MultipeerFrameworkMessage(data: Data(text.utf8), contentType: .text, commuType: .user)
+//        return sendMessage(message: message)
+//    }
+//
+//    @discardableResult
+//    func sendMessage(image: UIImage) -> Bool {
+//        let message = MultipeerFrameworkMessage(data: image.pngData(), contentType: .image, commuType: .user)
+//        return sendMessage(message: message)
+//    }
+
+    @discardableResult
+    func sendMessage(message: MultipeerFrameworkMessage) -> Bool {
+        do {
+            guard let encodedMessage = encodeMessage(message: message) else {
+                return false
+            }
+            guard let session = session else {
+                print("nil session")
+                return false
+            }
+            try session.send(encodedMessage, toPeers: [companionPeer], with: .reliable)
+            print("Message sent")
+        } catch {
+            print("Error in sending the message")
+            print(error)
+            return false
+        }
+        return true
     }
     
     private func encodeMessage(message: MultipeerFrameworkMessage) -> Data? {

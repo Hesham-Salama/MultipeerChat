@@ -1,24 +1,25 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="15702" systemVersion="19A583" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
-    <entity name="Peer" representedClassName="Peer" syncable="YES" codeGenerationType="class">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="16119" systemVersion="19F101" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="Companion" representedClassName="Companion" syncable="YES" codeGenerationType="class">
+        <attribute name="id" optional="YES" attributeType="String"/>
         <attribute name="mcPeerID" optional="YES" attributeType="Binary"/>
         <attribute name="profilePicture" optional="YES" attributeType="Binary"/>
     </entity>
     <entity name="User" representedClassName="User" syncable="YES" codeGenerationType="class">
+        <attribute name="id" optional="YES" attributeType="String"/>
         <attribute name="mcPeerID" optional="YES" attributeType="Binary"/>
+        <attribute name="profilePicture" optional="YES" attributeType="Binary"/>
     </entity>
     <entity name="UserMessageEntity" representedClassName="UserMessageEntity" syncable="YES" codeGenerationType="class">
         <attribute name="data" optional="YES" attributeType="Binary"/>
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
-        <attribute name="recipientHashValue" optional="YES" attributeType="Binary"/>
-        <attribute name="recipientPeerID" optional="YES" attributeType="Binary"/>
-        <attribute name="senderHashValue" optional="YES" attributeType="Binary"/>
-        <attribute name="senderPeerID" optional="YES" attributeType="Binary"/>
+        <attribute name="recipientHashValue" optional="YES" attributeType="String"/>
+        <attribute name="senderHashValue" optional="YES" attributeType="String"/>
         <attribute name="time" optional="YES" attributeType="Double" defaultValueString="0" usesScalarValueType="YES"/>
     </entity>
     <elements>
-        <element name="Peer" positionX="-63" positionY="-18" width="128" height="73"/>
-        <element name="User" positionX="-63" positionY="9" width="128" height="58"/>
-        <element name="UserMessageEntity" positionX="-54" positionY="18" width="128" height="148"/>
+        <element name="Companion" positionX="-63" positionY="-18" width="128" height="88"/>
+        <element name="User" positionX="-63" positionY="9" width="128" height="88"/>
+        <element name="UserMessageEntity" positionX="-54" positionY="18" width="128" height="118"/>
     </elements>
 </model>

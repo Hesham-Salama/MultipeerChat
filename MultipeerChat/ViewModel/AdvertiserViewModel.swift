@@ -26,34 +26,27 @@ class AdvertiserViewModel: NSObject, ObservableObject {
     }
     
     override init() {
-        guard let peerID = UserPeer.shared.peerID else {
+        guard let peerID = UserMP.shared.peerID else {
             fatalError("No PeerID detected!")
         }
         advertiser = MCNearbyServiceAdvertiser(peer: peerID, discoveryInfo: nil, serviceType: MultipeerConstants.serviceType)
         super.init()
-        advertiser.delegate = self
     }
     
     func startAdvertising() {
+        print("Advertising has started")
+        advertiser.delegate = self
         advertiser.startAdvertisingPeer()
     }
     
     func stopAdvertising() {
+        print("Advertising has stopped")
+        advertiser.delegate = nil
         advertiser.stopAdvertisingPeer()
     }
     
     func replyToRequest(isAccepted: Bool) {
         isAccepted ? acceptRequest?() : declineRequest?()
-    }
-    
-    private func sendUserInfo(session: MCSession) {
-        guard let peerID = UserPeer.shared.peerID else {
-            return
-        }
-        let image = (MultipeerUser.getAll().filter { $0.mcPeerID == peerID }).first?.picture
-        let messageSender = MessageSender(session: session)
-        print("Sending user info of \(peerID.displayName)")
-        messageSender.sendProfilePicture(image: image)
     }
     
     private func handlePeerInvitation(_ peerID: MCPeerID, _ invitationHandler: @escaping (Bool, MCSession?) -> Void) {
@@ -73,6 +66,7 @@ class AdvertiserViewModel: NSObject, ObservableObject {
 extension AdvertiserViewModel: MCNearbyServiceAdvertiserDelegate {
     
     func advertiser(_ advertiser: MCNearbyServiceAdvertiser, didReceiveInvitationFromPeer peerID: MCPeerID, withContext context: Data?, invitationHandler: @escaping (Bool, MCSession?) -> Void) {
+        print("Received invitation from \(peerID.displayName)")
         handlePeerInvitation(peerID, invitationHandler)
     }
     
@@ -86,15 +80,23 @@ extension AdvertiserViewModel: MCSessionDelegate {
     func session(_ session: MCSession, peer peerID: MCPeerID, didChange state: MCSessionState) {
         DispatchQueue.main.async { [weak self] in
             if state == .connected {
-                self?.peerConnectedSuccessfully = "\(peerID.displayName) is connected successfully."
+                let message = "\(peerID.displayName) is connected successfully."
+                self?.peerConnectedSuccessfully = message
                 self?.showPeerConnectedAlert = true
+                let messageSender = MessageSender(companionPeer: peerID, sessionDelegate: self)
+                messageSender.sendSelfInfo()
             }
         }
     }
     
     func session(_ session: MCSession, didReceive data: Data, fromPeer peerID: MCPeerID) {
-        ReceivedMessageHandler.handle(data: data, from: peerID)
-        sendUserInfo(session: session)
+        print("Advertiser - Received data from \(peerID.displayName)")
+        if let companion = (CompanionMP.getAll().first {
+            $0.mcPeerID == peerID }) {
+            ReceivedMessageHandler.handleReceivedUserMessage(messageData: data, from: companion)
+        } else if let companion = ReceivedMessageHandler.handleCompanionInfo(data: data) {
+            companion.saveLocally()
+        }
     }
     
     func session(_ session: MCSession, didReceive stream: InputStream, withName streamName: String, fromPeer peerID: MCPeerID) {

@@ -10,11 +10,11 @@ import SwiftUI
 
 struct PeerChatCell: View {
     typealias actionClosure = (() -> ())?
-    let multipeerUser: MultipeerUser
+    let multipeerUser: CompanionMP
     var action: actionClosure
     private let image: Image
     
-    init(multipeerUser: MultipeerUser, action: actionClosure = nil) {
+    init(multipeerUser: CompanionMP, action: actionClosure = nil) {
         self.multipeerUser = multipeerUser
         self.action = action
         self.image = DefaultImageConstructor.get(uiimage: multipeerUser.picture)

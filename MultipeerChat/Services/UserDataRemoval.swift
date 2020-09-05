@@ -11,8 +11,9 @@ import Foundation
 class UserDataRemoval {
     
     static func remove() {
-        MultipeerUser.removeAll()
-        UserMessage.removeAll()
-        UserPeer.shared.peerID = nil
+        CompanionMP.removeAll()
+        MPMessage.removeAll()
+        UserMP.shared.peerID = nil
+        SessionManager.shared.removeAllSessions()
     }
 }

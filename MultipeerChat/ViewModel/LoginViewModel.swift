@@ -14,17 +14,15 @@ class LoginViewModel: ObservableObject {
     @Published var name = ""
     @Published var isLoggedIn = false
     @Published var isErrorShown = false
-    let errorMessage = "Please enter a valid username (no spaces and should have more than 3 characters)"
+    private static let minCharsCountForUserName = 3
+    let errorMessage = "Please enter a valid username (no spaces and should have more than \(minCharsCountForUserName) characters)"
     
     init() {
         loginIfUserRegistered()
     }
     
     func loginIfUserRegistered() {
-        guard let mcPeerID = UserPeer.shared.peerID else {
-            return
-        }
-        guard (MultipeerUser.getAll().filter { $0.mcPeerID == mcPeerID }.first) != nil else {
+        guard UserMP.shared.peerID != nil else {
             return
         }
         isLoggedIn = true
@@ -41,12 +39,12 @@ class LoginViewModel: ObservableObject {
     
     private func saveMCPeerLocally(image: UIImage?) {
         let peerID = MCPeerID(displayName: name)
-        UserPeer.shared.peerID = peerID
-        let mPeerUser = MultipeerUser(mcPeerID: peerID, picture: image)
-        mPeerUser.saveLocally()
+        UserMP.shared.peerID = peerID
+        UserMP.shared.profilePicture = image
+        UserMP.shared.id = UUID()
     }
     
     private func isValidUser() -> Bool {
-        return name.count >= 4 && !name.contains(" ")
+        return name.count >= LoginViewModel.minCharsCountForUserName && !name.contains(" ")
     }
 }

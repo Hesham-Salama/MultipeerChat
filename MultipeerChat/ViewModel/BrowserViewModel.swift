@@ -10,8 +10,7 @@ import MultipeerConnectivity
 
 class BrowserViewModel: NSObject, ObservableObject {
     
-    @Published var connectedPeers = [BrowsedPeer]()
-    @Published var availablePeers = [BrowsedPeer]()
+    @Published var browsedPeers = [BrowsedPeer]()
     @Published var didNotStartBrowsing = false
     @Published var couldntConnect = false
     var startErrorMessage = ""
@@ -25,83 +24,75 @@ class BrowserViewModel: NSObject, ObservableObject {
         return session
     }
     
+    var availableAndConnectingPeers : [BrowsedPeer] {
+        return browsedPeers.filter { $0.currentStatus == .available || $0.currentStatus == .connecting }
+    }
+    
+    var connectedPeers : [BrowsedPeer] {
+        return browsedPeers.filter { $0.currentStatus == .connected }
+    }
+    
     override init() {
-        guard let peerID = UserPeer.shared.peerID else {
+        guard let peerID = UserMP.shared.peerID else {
             fatalError("No PeerID detected!")
         }
         browser = MCNearbyServiceBrowser(peer: peerID, serviceType: MultipeerConstants.serviceType)
         super.init()
-        browser.delegate = self
     }
     
     func stopBrowsing() {
+        print("Browsing has stopped")
+        browser.delegate = nil
         browser.stopBrowsingForPeers()
     }
     
     func startBrowsing() {
+        print("Browsing has started")
+        browser.delegate = self
         browser.startBrowsingForPeers()
     }
     
-    func peerClicked(peer: MCPeerID) {
-        if isPeerAvailableToConnect(peer: peer) {
-            browser.invitePeer(peer, to: newSession, withContext: nil, timeout: invitationTimeout)
-            setAvailablePeerStatus(peer, status: .connecting)
+    func peerClicked(browsedPeer: BrowsedPeer) {
+        if isPeerAvailableToConnect(peerID: browsedPeer.peerID) {
+            browser.invitePeer(browsedPeer.peerID, to: newSession, withContext: nil, timeout: invitationTimeout)
         }
     }
     
-    private func isPeerAvailableToConnect(peer: MCPeerID) -> Bool {
-        guard let index = (availablePeers.firstIndex {
-            $0.peerID == peer
-        }) else {
+    private func isPeerAvailableToConnect(peerID: MCPeerID) -> Bool {
+        guard let browsedPeer = (browsedPeers.first { $0.peerID == peerID }) else {
             return false
         }
-        return availablePeers[index].status == .available
+        return browsedPeer.currentStatus == .available
     }
     
     private func removeUnavailablePeer(peerID: MCPeerID) {
-        availablePeers.removeAll {
-            $0.peerID == peerID
-        }
-        connectedPeers.removeAll {
+        browsedPeers.removeAll() {
             $0.peerID == peerID
         }
     }
     
-    private func moveToConnectedPeers(peerID: MCPeerID) {
-        guard let index = (availablePeers.firstIndex {
-            $0.peerID == peerID
-        }) else {
-            return
+    private func decidePeerStatus(_ peer: BrowsedPeer) {
+        if SessionManager.shared.getMutualSession(with: peer.peerID) != nil {
+            setStatus(for: peer.peerID, status: .connected)
+        } else {
+            setStatus(for: peer.peerID, status: .available)
         }
-        var peer = self.availablePeers.remove(at: index)
-        peer.status = .connected
-        self.connectedPeers.append(peer)
     }
     
-    private func setAvailablePeerStatus(_ peerID: MCPeerID, status: PeerStatus) {
-        guard let index = (availablePeers.firstIndex {
+    private func setStatus(for peerID: MCPeerID, status: BrowsedPeer.Status) {
+        guard let index = (browsedPeers.firstIndex {
             $0.peerID == peerID
         }) else {
+            print("Couldn't find peerID: \(peerID.displayName), so couldn't set its status")
             return
         }
-        var peer = self.availablePeers.remove(at: index)
-        peer.status = status
-        self.availablePeers.insert(peer, at: index)
+        print("Set peer status of \(peerID.displayName) to \(status)")
+        browsedPeers[index].currentStatus = status
     }
     
     private func showCouldntConnectError(failedToConnectPeer: MCPeerID) {
         couldntConnectMessage = "Couldn't connect to \(failedToConnectPeer.displayName)"
         couldntConnect = true
-    }
-    
-    private func sendUserInfo(session: MCSession) {
-        guard let peerID = UserPeer.shared.peerID else {
-            return
-        }
-        let image = (MultipeerUser.getAll().filter { $0.mcPeerID == peerID }).first?.picture
-        let messageSender = MessageSender(session: session)
-        print("Sending user info of \(peerID.displayName)")
-        messageSender.sendProfilePicture(image: image)
     }
 }
 
@@ -109,11 +100,13 @@ extension BrowserViewModel: MCNearbyServiceBrowserDelegate {
     
     func browser(_ browser: MCNearbyServiceBrowser, foundPeer peerID: MCPeerID, withDiscoveryInfo info: [String : String]?) {
         print("Found a new peer: \(peerID.displayName)")
-        let peer = BrowsedPeer(peerID: peerID, status: .available)
-        availablePeers.append(peer)
+        let browsedPeer = BrowsedPeer(peerID: peerID)
+        browsedPeers.append(browsedPeer)
+        decidePeerStatus(browsedPeer)
     }
     
     func browser(_ browser: MCNearbyServiceBrowser, lostPeer peerID: MCPeerID) {
+        print("Peer \(peerID.displayName) is lost. Removing...")
         removeUnavailablePeer(peerID: peerID)
     }
     
@@ -130,16 +123,18 @@ extension BrowserViewModel: MCSessionDelegate {
             switch state {
             case .notConnected:
                 print("Failed to connect to \(peerID.displayName)")
-                self?.setAvailablePeerStatus(peerID, status: .available)
                 self?.showCouldntConnectError(failedToConnectPeer: peerID)
+                self?.setStatus(for: peerID, status: .available)
             case .connecting:
                 print("Connecting to \(peerID.displayName)")
+                self?.setStatus(for: peerID, status: .connecting)
             case .connected:
                 print("Connected to \(peerID.displayName)")
-                self?.moveToConnectedPeers(peerID: peerID)
-                if (MultipeerUser.getAll().filter { $0.mcPeerID == peerID }.first) == nil {
-                    self?.sendUserInfo(session: session)
-                }
+                self?.setStatus(for: peerID, status: .connected)
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0, execute: {
+                    let messageSender = MessageSender(companionPeer: peerID, sessionDelegate: self)
+                    messageSender.sendSelfInfo()
+                })
             @unknown default:
                 break
             }
@@ -147,7 +142,13 @@ extension BrowserViewModel: MCSessionDelegate {
     }
     
     func session(_ session: MCSession, didReceive data: Data, fromPeer peerID: MCPeerID) {
-        ReceivedMessageHandler.handle(data: data, from: peerID)
+        print("Browser - Received data from \(peerID.displayName)")
+        if let companion = (CompanionMP.getAll().first {
+            $0.mcPeerID == peerID }) {
+            ReceivedMessageHandler.handleReceivedUserMessage(messageData: data, from: companion)
+        } else if let companion = ReceivedMessageHandler.handleCompanionInfo(data: data) {
+            companion.saveLocally()
+        }
     }
     
     func session(_ session: MCSession, didReceive stream: InputStream, withName streamName: String, fromPeer peerID: MCPeerID) {

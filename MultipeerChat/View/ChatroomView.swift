@@ -9,11 +9,11 @@
 import SwiftUI
 
 struct ChatroomView: View {
-    let multipeerUser: MultipeerUser
+    let companion: CompanionMP
     @ObservedObject private var chatroomVM: ChatroomViewModel
     
-    init(multipeerUser: MultipeerUser) {
-        self.multipeerUser = multipeerUser
+    init(multipeerUser: CompanionMP) {
+        self.companion = multipeerUser
         chatroomVM = ChatroomViewModel(peer: multipeerUser)
         UITableView.appearance().separatorStyle = .none
         UITableView.appearance().tableFooterView = UIView()
@@ -36,14 +36,16 @@ struct ChatroomView: View {
                     Text("Send")
                 }
             }.frame(maxHeight: CGFloat(60)).padding()
+        }.onAppear() {
+            self.chatroomVM.loadInitialMessages()
         }
     }
     
-    func getMessageView(message: UserMessage) -> AnyView {
+    func getMessageView(message: MPMessage) -> AnyView {
         if let image = UIImage(data: message.data) {
-            return AnyView(PeerImageMessageView(messageImage: image, isCurrentUser: chatroomVM.isCurrentUser(message: message), userUIImage: chatroomVM.otherPeerImage))
+            return AnyView(PeerImageMessageView(messageImage: image, isCurrentUser: chatroomVM.isCurrentUser(message: message), userUIImage: chatroomVM.companion.picture))
         } else if let text = String.init(data: message.data, encoding: .utf8) {
-            return AnyView(PeerTextMessageView(message: text, isCurrentUser: chatroomVM.isCurrentUser(message: message), userUIImage: chatroomVM.otherPeerImage))
+            return AnyView(PeerTextMessageView(message: text, isCurrentUser: chatroomVM.isCurrentUser(message: message), userUIImage: chatroomVM.companion.picture))
         } else {
             return AnyView(EmptyView())
         }

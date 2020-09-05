@@ -31,12 +31,11 @@
 		54A91C1D248AC54600C0B7A8 /* MultipeerFrameworkMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54A91C1C248AC54600C0B7A8 /* MultipeerFrameworkMessage.swift */; };
 		54A91C1F248ACD9400C0B7A8 /* UserMessageSaver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54A91C1E248ACD9400C0B7A8 /* UserMessageSaver.swift */; };
 		54BD8705241D158E0085147F /* ChatsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54BD8704241D158E0085147F /* ChatsViewModel.swift */; };
-		54C7C4A42427D530008545AC /* BrowsedPeer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54C7C4A32427D530008545AC /* BrowsedPeer.swift */; };
-		54C7C4A62427D576008545AC /* PeerStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54C7C4A52427D576008545AC /* PeerStatus.swift */; };
+		54BEB00D24CCF7F700C7621C /* BrowsedPeer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54BEB00C24CCF7F700C7621C /* BrowsedPeer.swift */; };
 		54C7C4AB2427E9F9008545AC /* SessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54C7C4AA2427E9F9008545AC /* SessionManager.swift */; };
 		54C7C4AF2427FB00008545AC /* BrowsedPeerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54C7C4AE2427FB00008545AC /* BrowsedPeerCell.swift */; };
 		54F39691242AB59E00D000EE /* ReceivedMessageHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54F39690242AB59E00D000EE /* ReceivedMessageHandler.swift */; };
-		54F6FBF2242CF4D10084A3DD /* UserMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54F6FBF1242CF4D10084A3DD /* UserMessage.swift */; };
+		54F6FBF2242CF4D10084A3DD /* MPMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54F6FBF1242CF4D10084A3DD /* MPMessage.swift */; };
 		54FB141B242F7FCD00DF93AF /* CoreDataSortDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54FB141A242F7FCD00DF93AF /* CoreDataSortDescriptor.swift */; };
 		54FB141F242FA11500DF93AF /* ContentTextMessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54FB141E242FA11500DF93AF /* ContentTextMessageView.swift */; };
 		54FB1421242FA16000DF93AF /* PeerTextMessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54FB1420242FA16000DF93AF /* PeerTextMessageView.swift */; };
@@ -52,8 +51,8 @@
 		882E7D41241661B200E49BF6 /* TabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 882E7D40241661B200E49BF6 /* TabBarView.swift */; };
 		882E7D432416630C00E49BF6 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 882E7D422416630C00E49BF6 /* MainView.swift */; };
 		882E7D452416632000E49BF6 /* MoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 882E7D442416632000E49BF6 /* MoreView.swift */; };
-		886D6C3D2420D5E8003CE93A /* MultipeerUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 886D6C3C2420D5E8003CE93A /* MultipeerUser.swift */; };
-		886D6C412420DAC0003CE93A /* UserPeer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 886D6C402420DAC0003CE93A /* UserPeer.swift */; };
+		886D6C3D2420D5E8003CE93A /* CompanionMP.swift in Sources */ = {isa = PBXBuildFile; fileRef = 886D6C3C2420D5E8003CE93A /* CompanionMP.swift */; };
+		886D6C412420DAC0003CE93A /* UserMP.swift in Sources */ = {isa = PBXBuildFile; fileRef = 886D6C402420DAC0003CE93A /* UserMP.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -83,12 +82,11 @@
 		54A91C1C248AC54600C0B7A8 /* MultipeerFrameworkMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipeerFrameworkMessage.swift; sourceTree = "<group>"; };
 		54A91C1E248ACD9400C0B7A8 /* UserMessageSaver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserMessageSaver.swift; sourceTree = "<group>"; };
 		54BD8704241D158E0085147F /* ChatsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatsViewModel.swift; sourceTree = "<group>"; };
-		54C7C4A32427D530008545AC /* BrowsedPeer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowsedPeer.swift; sourceTree = "<group>"; };
-		54C7C4A52427D576008545AC /* PeerStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeerStatus.swift; sourceTree = "<group>"; };
+		54BEB00C24CCF7F700C7621C /* BrowsedPeer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowsedPeer.swift; sourceTree = "<group>"; };
 		54C7C4AA2427E9F9008545AC /* SessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionManager.swift; sourceTree = "<group>"; };
 		54C7C4AE2427FB00008545AC /* BrowsedPeerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowsedPeerCell.swift; sourceTree = "<group>"; };
 		54F39690242AB59E00D000EE /* ReceivedMessageHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceivedMessageHandler.swift; sourceTree = "<group>"; };
-		54F6FBF1242CF4D10084A3DD /* UserMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserMessage.swift; sourceTree = "<group>"; };
+		54F6FBF1242CF4D10084A3DD /* MPMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MPMessage.swift; sourceTree = "<group>"; };
 		54FB141A242F7FCD00DF93AF /* CoreDataSortDescriptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataSortDescriptor.swift; sourceTree = "<group>"; };
 		54FB141E242FA11500DF93AF /* ContentTextMessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentTextMessageView.swift; sourceTree = "<group>"; };
 		54FB1420242FA16000DF93AF /* PeerTextMessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeerTextMessageView.swift; sourceTree = "<group>"; };
@@ -104,8 +102,8 @@
 		882E7D40241661B200E49BF6 /* TabBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarView.swift; sourceTree = "<group>"; };
 		882E7D422416630C00E49BF6 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		882E7D442416632000E49BF6 /* MoreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreView.swift; sourceTree = "<group>"; };
-		886D6C3C2420D5E8003CE93A /* MultipeerUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipeerUser.swift; sourceTree = "<group>"; };
-		886D6C402420DAC0003CE93A /* UserPeer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPeer.swift; sourceTree = "<group>"; };
+		886D6C3C2420D5E8003CE93A /* CompanionMP.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompanionMP.swift; sourceTree = "<group>"; };
+		886D6C402420DAC0003CE93A /* UserMP.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserMP.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -190,6 +188,15 @@
 			path = Protocols;
 			sourceTree = "<group>";
 		};
+		547E57F724CB629900FEB8A1 /* CoreData */ = {
+			isa = PBXGroup;
+			children = (
+				8802D9332417A45D00E555D8 /* CoreDataHandler.swift */,
+				54FB141A242F7FCD00DF93AF /* CoreDataSortDescriptor.swift */,
+			);
+			path = CoreData;
+			sourceTree = "<group>";
+		};
 		54A0585B242A8BB900336878 /* Services */ = {
 			isa = PBXGroup;
 			children = (
@@ -231,17 +238,15 @@
 		882E7D372416577A00E49BF6 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				886D6C402420DAC0003CE93A /* UserPeer.swift */,
-				8802D9332417A45D00E555D8 /* CoreDataHandler.swift */,
-				54FB141A242F7FCD00DF93AF /* CoreDataSortDescriptor.swift */,
+				886D6C402420DAC0003CE93A /* UserMP.swift */,
+				886D6C3C2420D5E8003CE93A /* CompanionMP.swift */,
+				54F6FBF1242CF4D10084A3DD /* MPMessage.swift */,
+				547E57F724CB629900FEB8A1 /* CoreData */,
 				542C58E7242511E2006AAE74 /* MultipeerConstants.swift */,
-				54C7C4A52427D576008545AC /* PeerStatus.swift */,
 				54C7C4AA2427E9F9008545AC /* SessionManager.swift */,
-				54C7C4A32427D530008545AC /* BrowsedPeer.swift */,
-				886D6C3C2420D5E8003CE93A /* MultipeerUser.swift */,
-				54F6FBF1242CF4D10084A3DD /* UserMessage.swift */,
 				54A91C1C248AC54600C0B7A8 /* MultipeerFrameworkMessage.swift */,
 				54A91C1E248ACD9400C0B7A8 /* UserMessageSaver.swift */,
+				54BEB00C24CCF7F700C7621C /* BrowsedPeer.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -264,8 +269,8 @@
 				54BD8704241D158E0085147F /* ChatsViewModel.swift */,
 				54FB1428242FC1DE00DF93AF /* ChatroomViewModel.swift */,
 				5481C69A2422B9E700D0A745 /* BrowserViewModel.swift */,
-				545B0EB624BB9D6300A5DB60 /* MoreViewModel.swift */,
 				546064EC24252B63003415AA /* AdvertiserViewModel.swift */,
+				545B0EB624BB9D6300A5DB60 /* MoreViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -343,6 +348,7 @@
 			files = (
 				541F028724C1EB760029F156 /* UserDataRemoval.swift in Sources */,
 				545B0EB724BB9D6300A5DB60 /* MoreViewModel.swift in Sources */,
+				54BEB00D24CCF7F700C7621C /* BrowsedPeer.swift in Sources */,
 				54FB1427242FA69200DF93AF /* ContentImageMessageView.swift in Sources */,
 				54FB1421242FA16000DF93AF /* PeerTextMessageView.swift in Sources */,
 				54A91C1F248ACD9400C0B7A8 /* UserMessageSaver.swift in Sources */,
@@ -351,14 +357,13 @@
 				54FF11A324328C6E0062010D /* ImagePickerCoordinator.swift in Sources */,
 				54FB141F242FA11500DF93AF /* ContentTextMessageView.swift in Sources */,
 				8802D9342417A45D00E555D8 /* CoreDataHandler.swift in Sources */,
-				54C7C4A42427D530008545AC /* BrowsedPeer.swift in Sources */,
 				5479194A242D5BE00083574B /* MessageAdded.swift in Sources */,
 				543C77F0242E67F800D50B1D /* ChatroomView.swift in Sources */,
 				546D7064241296DB0005AA27 /* AppDelegate.swift in Sources */,
 				54776BA3242CCEE0001CE8E4 /* PeerChatCell.swift in Sources */,
 				542C58E624250BB2006AAE74 /* BrowserView.swift in Sources */,
 				882E7D432416630C00E49BF6 /* MainView.swift in Sources */,
-				886D6C3D2420D5E8003CE93A /* MultipeerUser.swift in Sources */,
+				886D6C3D2420D5E8003CE93A /* CompanionMP.swift in Sources */,
 				54A05858242A887700336878 /* MessageSender.swift in Sources */,
 				54FB1423242FA2E300DF93AF /* DefaultImageConstructor.swift in Sources */,
 				542553A8241AE4F400E00962 /* ActivityIndicator.swift in Sources */,
@@ -366,14 +371,13 @@
 				882E7D41241661B200E49BF6 /* TabBarView.swift in Sources */,
 				5481C69B2422B9E700D0A745 /* BrowserViewModel.swift in Sources */,
 				546D707A2412EAF20005AA27 /* ImagePicker.swift in Sources */,
-				886D6C412420DAC0003CE93A /* UserPeer.swift in Sources */,
+				886D6C412420DAC0003CE93A /* UserMP.swift in Sources */,
 				54C7C4AB2427E9F9008545AC /* SessionManager.swift in Sources */,
 				54FB141B242F7FCD00DF93AF /* CoreDataSortDescriptor.swift in Sources */,
 				54FB1429242FC1DE00DF93AF /* ChatroomViewModel.swift in Sources */,
 				546064ED24252B63003415AA /* AdvertiserViewModel.swift in Sources */,
 				54408F7F248572DB001E10F1 /* PeerAdded.swift in Sources */,
 				54A91C1D248AC54600C0B7A8 /* MultipeerFrameworkMessage.swift in Sources */,
-				54C7C4A62427D576008545AC /* PeerStatus.swift in Sources */,
 				546D7066241296DB0005AA27 /* SceneDelegate.swift in Sources */,
 				546064EB24252790003415AA /* AdvertiserView.swift in Sources */,
 				54C7C4AF2427FB00008545AC /* BrowsedPeerCell.swift in Sources */,
@@ -381,7 +385,7 @@
 				882E7D3E2416615600E49BF6 /* StartView.swift in Sources */,
 				54BD8705241D158E0085147F /* ChatsViewModel.swift in Sources */,
 				54776BA5242CD469001CE8E4 /* Image+extension.swift in Sources */,
-				54F6FBF2242CF4D10084A3DD /* UserMessage.swift in Sources */,
+				54F6FBF2242CF4D10084A3DD /* MPMessage.swift in Sources */,
 				882E7D452416632000E49BF6 /* MoreView.swift in Sources */,
 				54FB1425242FA57700DF93AF /* PeerImageMessageView.swift in Sources */,
 				542C58E8242511E2006AAE74 /* MultipeerConstants.swift in Sources */,

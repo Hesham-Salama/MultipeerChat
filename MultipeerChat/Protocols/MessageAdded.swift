@@ -7,5 +7,5 @@
 //
 
 protocol MessageAdded: class {
-    func added(message: UserMessage)
+    func added(message: MPMessage)
 }

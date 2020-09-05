@@ -7,5 +7,5 @@
 //
 
 protocol PeerAdded: class {
-    func added(peer: MultipeerUser)
+    func added(peer: CompanionMP)
 }

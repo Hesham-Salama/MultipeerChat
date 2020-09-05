@@ -15,18 +15,18 @@ struct BrowserView: View {
     var body: some View {
         List {
             Section(header: Text("Available Peers")) {
-                ForEach(browserVM.availablePeers) { peer in
-                    BrowsedPeerCell(buttonText: peer.peerID.displayName, statusText: peer.status == .connecting ? "Connecting..." : "") {
-                        self.browserVM.peerClicked(peer: peer.peerID)
+                ForEach(browserVM.availableAndConnectingPeers) { browsedPeer in
+                    BrowsedPeerCell(buttonText: browsedPeer.peerID.displayName, statusText: browsedPeer.currentStatus.description) {
+                        self.browserVM.peerClicked(browsedPeer: browsedPeer)
                     }
+                }
+            }
+            Section(header: Text("Connected Peers")) {
+                ForEach(browserVM.connectedPeers, id: \.id) { peer in
+                    BrowsedPeerCell(buttonText: peer.peerID.displayName, statusText: peer.currentStatus.description)
                 }
             }.alert(isPresented: $browserVM.couldntConnect) {
                 Alert(title: Text("Error"), message: Text(browserVM.couldntConnectMessage), dismissButton: .default(Text("OK")))
-            }
-            Section(header: Text("Connected Peers")) {
-                ForEach(browserVM.connectedPeers) { peer in
-                    BrowsedPeerCell(buttonText: peer.peerID.displayName, statusText: "")
-                }
             }
         }.listStyle(GroupedListStyle())
         .navigationBarTitle(Text("Peer Search"))
